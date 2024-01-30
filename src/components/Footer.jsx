@@ -2,8 +2,8 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="w-full h-70 flex justify-evenly ">
-      <div className="w-full max-w-5xl mx-auto flex justify-evenly">
+    <div className="w-full h-auto flex justify-evenly bg-white ">
+      <div className="w-full max-w-5xl mx-auto flex justify-evenly p-4">
         <div className="w-1/4">
           {/* Logo here */}
           <h2>S O W I T</h2>

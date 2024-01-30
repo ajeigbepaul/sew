@@ -6,7 +6,7 @@ function Layout() {
   return (
     <div className="bg-[#f5f5f5] w-full">
       <div className="relative w-screen h-full">
-        <div className="w-full h-screen">
+        <div className="w-full h-screen overflow-x-hidden">
           <Header />
           <Outlet />
           <Footer/>

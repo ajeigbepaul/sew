@@ -14,7 +14,7 @@ function Header() {
 const auth = false
 const navigate = useNavigate()
   return (
-    <div className="w-full bg-amber-200 py-2">
+    <div className="w-full bg-amber-200 py-2 z-40 top-0">
       <div className="w-full mx-auto  flex flex-col md:flex-row items-center justify-center md:justify-between ">
         <div className="flex items-center space-x-2 justify-center w-full md:w-1/4 ">
           <FaFacebook size={24} />
@@ -66,7 +66,7 @@ const navigate = useNavigate()
             <>
               <div className="flex items-center justify-center space-x-2">
                 <span
-                  onClick={() => navigate("/logininterface")}
+                  onClick={() => navigate("/login")}
                   className="cursor-pointer"
                 >
                   Sign-In
