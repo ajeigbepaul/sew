@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "../../components/Banner";
 import Subheader from "../../components/Subheader";
 import Galleries from "../../components/Galleries";
 import WomenGalleries from "../../components/WomenGalleries";
 import Model from "../../components/Model";
 import ProductCard from "../../components/ProductCard";
+import useAuth from "../../hooks/useAuth";
 
 function Home() {
+    
   return (
     <main className="flex min-h-screen flex-col items-center justify-between overflow-x-hidden">
       <div className="w-screen bg-slate-300 min-h-[90vh]">

@@ -10,9 +10,17 @@ import {
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { Badge } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import toast from "react-hot-toast";
 function Header() {
-const auth = false
-const navigate = useNavigate()
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const logOut = async () => {
+    localStorage.removeItem("token");
+    console.log("Token cleared");
+    toast.success("You have logged out")
+    navigate("/login");
+  };
   return (
     <div className="w-full bg-amber-200 py-2 z-40 top-0">
       <div className="w-full mx-auto  flex flex-col md:flex-row items-center justify-center md:justify-between ">
@@ -32,8 +40,7 @@ const navigate = useNavigate()
             <>
               <div className="flex items-center justify-center space-x-2">
                 <span>
-                    pdave...gmail.com
-                  {/* {auth?.email.substring(0, 5)}...{auth?.email.slice(-3)} */}
+                  {auth?.email?.substring(0, 5)}...{auth?.email?.slice(-3)}
                 </span>
 
                 {auth.image ? (
@@ -56,7 +63,7 @@ const navigate = useNavigate()
 
                 <span
                   className="bg-slate-800 text-white rounded-md py-1 px-2 mx-2 cursor-pointer text-sm"
-                  onClick={()=>{console.log("Logout")}}
+                  onClick={logOut}
                 >
                   Logout
                 </span>

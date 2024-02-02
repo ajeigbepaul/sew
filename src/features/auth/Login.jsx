@@ -1,17 +1,56 @@
-import React, { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
-import InputText from "../../components/InputText"
-import SubmitButton from "../../components/SubmitButton"
+import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import InputText from "../../components/InputText";
+import SubmitButton from "../../components/SubmitButton";
+import { useMutation } from "@tanstack/react-query";
+import { auth } from "../../api/apiClient";
+import toast from "react-hot-toast";
 function Login() {
-    const navigate = useNavigate()
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsLoading(true)
-      
-    };
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const loginMutation = useMutation({
+    mutationFn: auth,
+    onSuccess: (res) => {
+      if (res && res.token) {
+        const token = res.token;
+        console.log("Token received", token);
+        localStorage.setItem("token", token);
+      } else {
+        console.error("Token not found in response:", res);
+      }
+      setLoading(false);
+      toast.success("Logged in!!! Welcome to SewIT");
+      // navigate("/");
+    },
+    onError: (error) => {
+      console.log(error);
+      setLoading(false);
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setErrorMsg(error.response?.data?.message || "An error occurred");
+      }
+    },
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
+    try {
+      await loginMutation.mutateAsync({
+        email,
+        password,
+      });
+    } catch (error) {
+      // Error handling is already done in the onError callback
+    }
+  };
   return (
     <div className="w-screen h-screen">
       <div className="w-full flex md:flex-row flex-col">
@@ -44,10 +83,15 @@ function Login() {
               className="w-full px-2 py-2 rounded-md shadow-sm my-2"
               onChange={(e) => setPassword(e.target.value)}
             />
+            {errorMsg && (
+              <div className="text-red-400 w-full text-center text-xs">
+                {errorMsg}
+              </div>
+            )}
             <SubmitButton
               className="w-full bg-yellow-400 text-white text-base rounded-md cursor-pointer flex items-center justify-center px-2 py-2 mt-2 hover:bg-black hover:text-slate-100 transition duration-1000 ease-in-out"
               title="Login"
-              isLoading={isLoading}
+              isLoading={loading}
             />
           </form>
           <div className="md:w-2/4 w-full flex flex-col mt-3">
@@ -73,4 +117,4 @@ function Login() {
   );
 }
 
-export default Login
+export default Login;
