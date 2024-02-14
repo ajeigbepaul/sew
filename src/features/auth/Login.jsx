@@ -23,7 +23,7 @@ function Login() {
       }
       setLoading(false);
       toast.success("Logged in!!! Welcome to SewIT");
-      // navigate("/");
+      navigate("/");
     },
     onError: (error) => {
       console.log(error);
